@@ -1,15 +1,30 @@
 import streamlit as st
 
-st.set_page_config(page_title="Trang HTML + CSS", layout="centered")
-st.title("🌐 Demo HTML + CSS trong Streamlit")
+# Danh sách tài khoản mẫu (có thể thay thế bằng database thật)
+USER_CREDENTIALS = {
+    "admin": "123456",
+    "user": "password"
+}
 
-# HTML + CSS nội tuyến
-html_code = """
-<div style="background-color:#f0f0f0;padding:20px;border-radius:10px;text-align:center;">
-    <h2 style="color:#2c3e50;">Xin chào!</h2>
-    <p style="font-size:18px;">Đây là nội dung <b>HTML</b> có CSS tùy chỉnh.</p>
-    <button style="background-color:red;color:white;border:none;padding:10px 20px;border-radius:5px;">Nhấn vào đây</button>
-</div>
-"""
+# Hàm kiểm tra đăng nhập
+def check_login(username, password):
+    return USER_CREDENTIALS.get(username) == password
 
-st.markdown(html_code, unsafe_allow_html=True)
+# Tiêu đề
+st.set_page_config(page_title="Login Page", page_icon="🔐")
+st.title("🔐 Đăng Nhập Hệ Thống")
+
+# Nhập thông tin đăng nhập
+username = st.text_input("Tên đăng nhập")
+password = st.text_input("Mật khẩu", type="password")
+
+# Nút đăng nhập
+if st.button("Đăng nhập"):
+    if check_login(username, password):
+        st.success(f"Chào mừng, **{username}**! Bạn đã đăng nhập thành công ✅.")
+        # Có thể chuyển sang giao diện chính bằng session_state hoặc st.experimental_rerun()
+    else:
+        st.error("Sai tên đăng nhập hoặc mật khẩu ❌")
+
+# Gợi ý
+st.markdown("👉 Tài khoản mẫu: `admin / 123456`")
